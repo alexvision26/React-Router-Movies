@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useParams } from 'react';
 import axios from 'axios';
 
 const Movie = (props) => {
@@ -10,7 +10,7 @@ const Movie = (props) => {
     // You will NEED to add a dependency array to this effect hook
 
        axios
-        .get(`http://localhost:5000/api/movies/${id}`)
+        .get(`http://localhost:5000/api/movies/${props.id}`)
         .then(response => {
           setMovie(response.data);
         })
@@ -18,7 +18,7 @@ const Movie = (props) => {
           console.error(error);
         });
 
-  },[]);
+  },[props.match.params.id]);
   
   // Uncomment this only when you have moved on to the stretch goals
   // const saveMovie = () => {
