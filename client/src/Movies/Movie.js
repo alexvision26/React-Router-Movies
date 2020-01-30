@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useParams } from 'react';
 import axios from 'axios';
+import MovieCard from './MovieCard';
 
 const Movie = (props) => {
   const [movie, setMovie] = useState();
  
   useEffect(() => {
-    const id = 1;
+    const url = document.URL;
+    const id = url.substring(url.lastIndexOf('/') + 1);
     // change ^^^ that line and grab the id from the URL
     // You will NEED to add a dependency array to this effect hook
 
@@ -17,14 +19,13 @@ const Movie = (props) => {
         .catch(error => {
           console.error(error);
         });
-
   },[]);
   
   // Uncomment this only when you have moved on to the stretch goals
-  // const saveMovie = () => {
-  //   const addToSavedList = props.addToSavedList;
-  //   addToSavedList(movie)
-  // }
+  const saveMovie = () => {
+    const addToSavedList = props.addToSavedList;
+    addToSavedList(movie)
+  }
 
   if (!movie) {
     return <div>Loading movie information...</div>;
@@ -33,7 +34,8 @@ const Movie = (props) => {
   const { title, director, metascore, stars } = movie;
   return (
     <div className="save-wrapper">
-      <div className="movie-card">
+      <MovieCard key={movie.id} movie={movie} />
+      {/* <div className="movie-card">
         <h2>{title}</h2>
         <div className="movie-director">
           Director: <em>{director}</em>
@@ -48,8 +50,8 @@ const Movie = (props) => {
             {star}
           </div>
         ))}
-      </div>
-      <div className="save-button">Save</div>
+      </div> */}
+      <div className="save-button" onClick={saveMovie}>Save</div>
     </div>
   );
 }
